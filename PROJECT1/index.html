@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <h2>My Notes</h2>
+        <button id="themeToggle">🌙</button>
+    </div>
+
+    <!-- MAIN LAYOUT (Sidebar + Notes) -->
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <ul>
+                <li>All Notes</li>
+                <li>Pinned</li>
+                <li>Archived</li>
+            </ul>
+        </div>
+
+        <!-- NOTES AREA -->
+        <div class="notes-container">
+
+            <div class="notes-card">
+                <h2>Shopping List</h2>
+                <p>Milk, Vegetables, Groceries</p>
+            </div>
+
+            <div class="notes-card">
+                <h2>Meeting Notes</h2>
+                <p>Discuss project timeline</p>
+            </div>
+
+            <div class="notes-card">
+                <h2>Ideas</h2>
+                <p>Start a tech blog, Learn FastAPI</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- INLINE JS (Dark Mode Toggle) -->
+    <script>
+        document.getElementById("themeToggle").onclick = function () {
+            document.body.classList.toggle("dark-mode");
+        };
+    </script>
+
+</body>
+</html>
