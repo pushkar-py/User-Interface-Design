@@ -2,51 +2,40 @@
    PAGE FADE-IN
 ========================================= */
 body {
-    animation: fadeIn 0.5s ease forwards;
+    animation: fadeIn 0.6s ease forwards;
+    margin: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    transition: background 0.3s ease;
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
 
 /* =========================================
    ROOT VARIABLES
 ========================================= */
 :root {
-    --bg-color: #f4f4f4;
+    --bg-color: #f8f9fa;
     --navbar-bg: #2D6A4F;
-    --sidebar-bg: #f8f9fa;
+    --sidebar-bg: #ffffff;
     --card-bg: #ffffff;
     --card-border: #e2e2e2;
     --text-color: #333;
-    --hover-color: #e4e4e4;
-
-    --shadow-light: 0 2px 6px rgba(0,0,0,0.25);
-    --shadow-card: 0 6px 18px rgba(0,0,0,0.15);
+    --hover-color: #f0f0f0;
+    --shadow-light: 0 2px 8px rgba(0,0,0,0.12);
+    --shadow-card: 0 8px 24px rgba(0,0,0,0.12);
 }
 
-
-/* =========================================
-   DARK MODE OVERRIDES
-========================================= */
+/* Dark Mode */
 body.dark-mode {
-    --bg-color: #1f1f1f;
+    --bg-color: #121212;
     --navbar-bg: #0f3d32;
-    --sidebar-bg: #2a2a2a;
+    --sidebar-bg: #1e1e1e;
     --card-bg: #2c2c2c;
     --card-border: #444;
-    --text-color: #e6e6e6;
+    --text-color: #e0e0e0;
+    --hover-color: #383838;
 }
-
-
-/* =========================================
-   GLOBAL
-========================================= */
-body {
-    margin: 0;
-    background: var(--bg-color);
-    color: var(--text-color);
-    font-family: Arial, sans-serif;
-}
-
 
 /* =========================================
    NAVBAR
@@ -56,36 +45,45 @@ body {
     width: 100%;
     position: fixed;
     top: 0;
-
-    display: flex;
-    align-items: center;
-    padding: 0 25px;
-
     background: var(--navbar-bg);
     color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
     box-shadow: var(--shadow-light);
-
     z-index: 100;
+    user-select: none;
+}
+
+.navbar__hamburger {
+    font-size: 28px;
+    cursor: pointer;
+    display: none;
+}
+
+.navbar__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .navbar__toggle {
-    margin-left: auto;
-    background: transparent;
+    margin-left: 1325px;
+    background: none;
     border: none;
     color: white;
-    font-size: 22px;
+    font-size: 24px;
     cursor: pointer;
+    padding: 8px;
 }
-
 
 /* =========================================
-   MAIN LAYOUT
+   LAYOUT
 ========================================= */
 .layout {
-    display: flex;
     margin-top: 65px;
+    min-height: calc(100vh - 65px);
 }
-
 
 /* =========================================
    SIDEBAR
@@ -93,175 +91,217 @@ body {
 .sidebar {
     width: 240px;
     background: var(--sidebar-bg);
-
     position: fixed;
     top: 65px;
     left: 0;
-
-    border-right: 1px solid var(--card-border);
     height: calc(100vh - 65px);
-    padding: 20px;
-
-    z-index: 50;
+    border-right: 1px solid var(--card-border);
+    padding: 24px 16px;
+    transition: left 0.35s ease;
+    z-index: 90;
 }
 
-/* Sidebar items */
-.sidebar__menu { list-style: none; padding: 0; }
+.sidebar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .sidebar__item {
-    padding: 12px;
-    margin-bottom: 8px;
-    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 6px;
+    border-radius: 10px;
     cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
 }
+
 .sidebar__item:hover {
     background: var(--hover-color);
 }
 
-
-/* =========================================
-   NOTES GRID (Pinterest layout)
-========================================= */
-.notes-grid {
-    margin-left: 260px;
-    padding: 20px;
-
-    width: calc(100% - 260px); /* prevents collapse */
-    min-width: 0;
-
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+.sidebar__item.active {
+    background: var(--navbar-bg);
+    color: white;
 }
 
+/* =========================================
+   NOTES GRID
+========================================= */
+.notes-grid {
+    margin-left: 240px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    transition: margin-left 0.35s ease;
+}
 
 /* =========================================
-   NOTE CARD + ANIMATIONS
+   NOTE CARD
 ========================================= */
 .note {
     background: var(--card-bg);
     padding: 20px;
     border: 1px solid var(--card-border);
-    border-radius: 12px;
+    border-radius: 14px;
     box-shadow: var(--shadow-card);
-
+    transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(30px);
-
     animation: slideUp 0.6s ease forwards;
-    transition: transform 0.2s ease;
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.note:nth-child(1) { animation-delay: .10s; }
-.note:nth-child(2) { animation-delay: .20s; }
-.note:nth-child(3) { animation-delay: .30s; }
-.note:nth-child(4) { animation-delay: .40s; }
-.note:nth-child(5) { animation-delay: .50s; }
+.note:nth-child(1) { animation-delay: 0.1s; }
+.note:nth-child(2) { animation-delay: 0.2s; }
+.note:nth-child(3) { animation-delay: 0.3s; }
+.note:nth-child(4) { animation-delay: 0.4s; }
+.note:nth-child(5) { animation-delay: 0.5s; }
 
 .note:hover {
-    transform: translateY(-6px) scale(1.015);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.18);
 }
 
+.note__title {
+    margin: 0 0 12px 0;
+    font-size: 1.35rem;
+    color: var(--text-color);
+}
+
+.note__content {
+    margin: 0;
+    line-height: 1.55;
+    color: #555;
+    word-wrap: break-word;
+}
+.dark-mode .note__content { color: #bbbbbb; }
 
 /* =========================================
-   FLOATING ACTION BUTTON (FAB)
+   FAB & MODAL
 ========================================= */
 .fab {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: none;
-
+    background: var(--navbar-bg);
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
     position: fixed;
     bottom: 30px;
     right: 30px;
-
-    background: var(--navbar-bg);
-    color: white;
-    font-size: 32px;
     cursor: pointer;
-
-    animation: pulse 2s infinite ease-in-out;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     z-index: 200;
+    animation: pulse 2.5s infinite;
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
-
-/* =========================================
-   MODAL SYSTEM
-========================================= */
+/* Modal */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
-
-    display: none;      /* hidden by default */
+    background: rgba(0,0,0,0.55);
+    display: none;
     justify-content: center;
     align-items: center;
-
     z-index: 500;
-    padding: 20px;
+    backdrop-filter: blur(4px);
 }
 .modal-overlay.show { display: flex; }
 
 .modal-box {
-    width: 100%;
+    width: 90%;
     max-width: 520px;
-
     background: var(--card-bg);
-    padding: 25px;
-    border-radius: 12px;
-
-    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
     position: relative;
+    animation: modalPop 0.4s ease;
+}
+
+@keyframes modalPop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 .modal__close {
     position: absolute;
     top: 12px;
-    right: 12px;
+    right: 16px;
+    font-size: 24px;
     cursor: pointer;
+    opacity: 0.7;
 }
+.modal__close:hover { opacity: 1; }
 
-
-/* Inputs */
-.modal__input,
-.modal__textarea {
+.modal__input, .modal__textarea {
     width: 100%;
-    margin-top: 12px;
-
-    padding: 10px;
-    border-radius: 8px;
+    padding: 12px;
+    margin-top: 14px;
     border: 1px solid var(--card-border);
-
+    border-radius: 10px;
     background: var(--card-bg);
     color: var(--text-color);
+    font-family: inherit;
+    font-size: 1rem;
 }
 
 .modal__textarea {
-    height: 120px;
+    height: 140px;
     resize: vertical;
 }
 
 .modal__save {
     width: 100%;
-    margin-top: 16px;
-    padding: 12px;
-
-    border: none;
-    border-radius: 8px;
-
+    margin-top: 20px;
+    padding: 14px;
     background: var(--navbar-bg);
     color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
+    transition: background 0.2s;
+}
+.modal__save:hover {
+    background: #1e4d3a;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 768px) {
+    .navbar__hamburger { display: block; }
+    .sidebar {
+        left: -240px;
+    }
+    .sidebar.open {
+        left: 0;
+    }
+    .notes-grid {
+        margin-left: 0;
+        padding: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 18px;
+    }
+    .fab {
+        width: 56px;
+        height: 56px;
+        font-size: 32px;
+        bottom: 20px;
+        right: 20px;
+    }
 }

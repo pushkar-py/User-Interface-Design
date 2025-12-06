@@ -3,59 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes App UI - Grid Layout</title>
+    <title>My Notes – Clean & Responsive</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <!-- NAVBAR -->
-    <div class="navbar">
+    <div class="navbar" id="navbar">
+        <div class="navbar__hamburger">Menu</div>
         <h2 class="navbar__title">My Notes</h2>
-        <button id="themeToggle" class="navbar__toggle">🌙</button>
+        <button id="themeToggle" class="navbar__toggle">Moon</button>
     </div>
 
     <!-- MAIN LAYOUT -->
     <div class="layout">
 
         <!-- SIDEBAR -->
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <ul class="sidebar__menu">
-                <li class="sidebar__item">All Notes</li>
+                <li class="sidebar__item active">All Notes</li>
                 <li class="sidebar__item">Pinned</li>
                 <li class="sidebar__item">Archived</li>
             </ul>
         </div>
 
         <!-- NOTES GRID AREA -->
-        <div class="notes-grid">
+        <div class="notes-grid" id="notesGrid">
 
+            <!-- Sample notes -->
             <div class="note">
                 <h2 class="note__title">Shopping List</h2>
-                <p class="note__content">Milk, Vegetables, Groceries</p>
+                <p class="note__content">Milk, Vegetables, Bread, Eggs, Fruits</p>
             </div>
-
             <div class="note">
                 <h2 class="note__title">Meeting Notes</h2>
-                <p class="note__content">Discuss timeline and deliverables.</p>
+                <p class="note__content">Discuss Q4 timeline, new features, and deliverables with the team.</p>
             </div>
-
             <div class="note">
                 <h2 class="note__title">Ideas</h2>
-                <p class="note__content">Start tech blog, Learn FastAPI, Build UI.</p>
+                <p class="note__content">Start a tech blog • Learn FastAPI • Build more UI components • Try Svelte</p>
             </div>
-
             <div class="note">
-                <h2 class="note__title">Long Note</h2>
+                <h2 class="note__title">Long Note Example</h2>
                 <p class="note__content">
-                    This is a longer note for the masonry layout.  
-                    Grid should auto-fit perfectly.
+                    This is a longer note to demonstrate how the grid handles varying heights gracefully.
+                    No awkward gaps — everything flows naturally.
                 </p>
             </div>
-
             <div class="note">
-                <h2 class="note__title">Another Note</h2>
-                <p class="note__content">Lorem ipsum dolor sit amet.</p>
+                <h2 class="note__title">Quick Thought</h2>
+                <p class="note__content">Sometimes the best ideas come at 2 AM.</p>
             </div>
 
         </div>
@@ -66,36 +63,108 @@
         <!-- MODAL -->
         <div class="modal-overlay" id="modalOverlay">
             <div class="modal-box">
-                <span class="modal__close" id="closeModal">✖</span>
+                <span class="modal__close" id="closeModal">Close</span>
                 <h2>Add New Note</h2>
 
-                <input type="text" placeholder="Note Title" class="modal__input">
-                <textarea placeholder="Note Content" class="modal__textarea"></textarea>
+                <input type="text" id="noteTitle" placeholder="Note Title" class="modal__input">
+                <textarea id="noteContent" placeholder="Note Content..." class="modal__textarea"></textarea>
 
-                <button class="modal__save">Save Note</button>
+                <button class="modal__save" id="saveNote">Save Note</button>
             </div>
         </div>
 
     </div>
 
-    <!-- JAVASCRIPT -->
     <script>
-        // Dark mode toggle
-        document.getElementById("themeToggle").onclick = () =>
-            document.body.classList.toggle("dark-mode");
+        // ================ THEME TOGGLE + PERSISTENCE ================
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
 
-        // Modal toggle
-        const openModal = document.getElementById("openModal");
-        const closeModal = document.getElementById("closeModal");
+        // Load saved theme
+        if (localStorage.getItem("darkMode") === "true") {
+            body.classList.add("dark-mode");
+            themeToggle.textContent = "Sun";
+        }
+
+        themeToggle.onclick = () => {
+            const isDark = body.classList.toggle("dark-mode");
+            themeToggle.textContent = isDark ? "Sun" : "Moon";
+            localStorage.setItem("darkMode", isDark);
+        };
+
+        // ================ MOBILE SIDEBAR TOGGLE ================
+        const navbar = document.getElementById("navbar");
+        const sidebar = document.getElementById("sidebar");
+
+        navbar.addEventListener("click", (e) => {
+            if (e.target.classList.contains("navbar__hamburger") || e.target === navbar) {
+                sidebar.classList.toggle("open");
+            }
+        });
+
+        // Close sidebar when clicking a menu item (mobile)
+        document.querySelectorAll(".sidebar__item").forEach(item => {
+            item.addEventListener("click", () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove("open");
+                }
+            });
+        });
+
+        // ================ MODAL CONTROLS ================
+        const openModalBtn = document.getElementById("openModal");
+        const closeModalBtn = document.getElementById("closeModal");
         const modalOverlay = document.getElementById("modalOverlay");
+        const notesGrid = document.getElementById("notesGrid");
 
-        openModal.onclick = () => modalOverlay.classList.add("show");
-        closeModal.onclick = () => modalOverlay.classList.remove("show");
+        openModalBtn.onclick = () => modalOverlay.classList.add("show");
+        closeModalBtn.onclick = () => modalOverlay.classList.remove("show");
 
+        // Close when clicking outside
         modalOverlay.onclick = (e) => {
             if (e.target === modalOverlay) modalOverlay.classList.remove("show");
         };
-    </script>
 
+        // ================ ADD NEW NOTE ================
+        document.getElementById("saveNote").onclick = () => {
+            const title = document.getElementById("noteTitle").value.trim();
+            const content = document.getElementById("noteContent").value.trim();
+
+            if (!title && !content) return;
+
+            const newNote = document.createElement("div");
+            newNote.className = "note";
+            newNote.innerHTML = `
+                <h2 class="note__title">${title || "Untitled Note"}</h2>
+                <p class="note__content">${content || "No content added."}</p>
+            `;
+
+            // Add animation
+            newNote.style.opacity = "0";
+            newNote.style.transform = "translateY(30px)";
+
+            notesGrid.prepend(newNote);
+
+            // Trigger animation
+            setTimeout(() => {
+                newNote.style.opacity = "1";
+                newNote.style.transform = "translateY(0)";
+                newNote.style.transition = "all 0.6s ease";
+            }, 10);
+
+            // Clear form & close modal
+            document.getElementById("noteTitle").value = "";
+            document.getElementById("noteContent").value = "";
+            modalOverlay.classList.remove("show");
+        };
+
+        // Optional: Press Enter in title to focus content, Shift+Enter to save
+        document.getElementById("noteTitle").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("noteContent").focus();
+            }
+        });
+    </script>
 </body>
 </html>
