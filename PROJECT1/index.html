@@ -11,8 +11,8 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-        <h2>My Notes</h2>
-        <button id="themeToggle">🌙</button>
+        <h2 class="navbar__title">My Notes</h2>
+        <button id="themeToggle" class="navbar__toggle">🌙</button>
     </div>
 
     <!-- MAIN LAYOUT -->
@@ -20,52 +20,80 @@
 
         <!-- SIDEBAR -->
         <div class="sidebar">
-            <ul>
-                <li>All Notes</li>
-                <li>Pinned</li>
-                <li>Archived</li>
+            <ul class="sidebar__menu">
+                <li class="sidebar__item">All Notes</li>
+                <li class="sidebar__item">Pinned</li>
+                <li class="sidebar__item">Archived</li>
             </ul>
         </div>
 
-        <!-- NOTES GRID AREA (NOW USING CSS GRID) -->
+        <!-- NOTES GRID AREA -->
         <div class="notes-grid">
 
             <div class="note">
-                <h2>Shopping List</h2>
-                <p>Milk, Vegetables, Groceries</p>
+                <h2 class="note__title">Shopping List</h2>
+                <p class="note__content">Milk, Vegetables, Groceries</p>
             </div>
 
             <div class="note">
-                <h2>Meeting Notes</h2>
-                <p>Discuss project timeline and deliverables in detail.</p>
+                <h2 class="note__title">Meeting Notes</h2>
+                <p class="note__content">Discuss timeline and deliverables.</p>
             </div>
 
             <div class="note">
-                <h2>Ideas</h2>
-                <p>Start tech blog, Learn FastAPI, Make portfolio website</p>
+                <h2 class="note__title">Ideas</h2>
+                <p class="note__content">Start tech blog, Learn FastAPI, Build UI.</p>
             </div>
 
             <div class="note">
-                <h2>Long Note Example</h2>
-                <p>
-                    This is a longer note to test the masonry layout.  
-                    Notice how the grid adjusts automatically.
+                <h2 class="note__title">Long Note</h2>
+                <p class="note__content">
+                    This is a longer note for the masonry layout.  
+                    Grid should auto-fit perfectly.
                 </p>
             </div>
 
             <div class="note">
-                <h2>Another Note</h2>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
+                <h2 class="note__title">Another Note</h2>
+                <p class="note__content">Lorem ipsum dolor sit amet.</p>
             </div>
 
+        </div>
+
+        <!-- FLOATING ADD BUTTON -->
+        <button class="fab" id="openModal">+</button>
+
+        <!-- MODAL -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-box">
+                <span class="modal__close" id="closeModal">✖</span>
+                <h2>Add New Note</h2>
+
+                <input type="text" placeholder="Note Title" class="modal__input">
+                <textarea placeholder="Note Content" class="modal__textarea"></textarea>
+
+                <button class="modal__save">Save Note</button>
+            </div>
         </div>
 
     </div>
 
     <!-- JAVASCRIPT -->
     <script>
-        document.getElementById("themeToggle").onclick = function () {
+        // Dark mode toggle
+        document.getElementById("themeToggle").onclick = () =>
             document.body.classList.toggle("dark-mode");
+
+        // Modal toggle
+        const openModal = document.getElementById("openModal");
+        const closeModal = document.getElementById("closeModal");
+        const modalOverlay = document.getElementById("modalOverlay");
+
+        openModal.onclick = () => modalOverlay.classList.add("show");
+        closeModal.onclick = () => modalOverlay.classList.remove("show");
+
+        modalOverlay.onclick = (e) => {
+            if (e.target === modalOverlay) modalOverlay.classList.remove("show");
         };
     </script>
 

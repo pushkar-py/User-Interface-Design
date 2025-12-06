@@ -1,4 +1,15 @@
-/* ROOT VARIABLES (same as before) */
+/* =========================================
+   PAGE FADE-IN
+========================================= */
+body {
+    animation: fadeIn 0.5s ease forwards;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+/* =========================================
+   ROOT VARIABLES
+========================================= */
 :root {
     --bg-color: #f4f4f4;
     --navbar-bg: #2D6A4F;
@@ -10,11 +21,12 @@
 
     --shadow-light: 0 2px 6px rgba(0,0,0,0.25);
     --shadow-card: 0 6px 18px rgba(0,0,0,0.15);
-
-    --transition-speed: 0.3s;
 }
 
-/* DARK MODE VARIABLES */
+
+/* =========================================
+   DARK MODE OVERRIDES
+========================================= */
 body.dark-mode {
     --bg-color: #1f1f1f;
     --navbar-bg: #0f3d32;
@@ -22,37 +34,41 @@ body.dark-mode {
     --card-bg: #2c2c2c;
     --card-border: #444;
     --text-color: #e6e6e6;
-    --hover-color: #3a3a3a;
-
-    --shadow-card: 0 6px 18px rgba(0,0,0,0.6);
 }
 
-/* GLOBAL */
+
+/* =========================================
+   GLOBAL
+========================================= */
 body {
     margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
     background: var(--bg-color);
     color: var(--text-color);
+    font-family: Arial, sans-serif;
 }
 
-/* NAVBAR */
+
+/* =========================================
+   NAVBAR
+========================================= */
 .navbar {
+    height: 65px;
+    width: 100%;
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 65px;
-    background: var(--navbar-bg);
-    color: white;
+
     display: flex;
     align-items: center;
     padding: 0 25px;
+
+    background: var(--navbar-bg);
+    color: white;
     box-shadow: var(--shadow-light);
-    z-index: 10;
+
+    z-index: 100;
 }
 
-#themeToggle {
+.navbar__toggle {
     margin-left: auto;
     background: transparent;
     border: none;
@@ -61,39 +77,66 @@ body {
     cursor: pointer;
 }
 
-/* LAYOUT */
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
 .layout {
     display: flex;
     margin-top: 65px;
 }
 
-/* SIDEBAR */
+
+/* =========================================
+   SIDEBAR
+========================================= */
 .sidebar {
     width: 240px;
     background: var(--sidebar-bg);
+
     position: fixed;
     top: 65px;
     left: 0;
+
+    border-right: 1px solid var(--card-border);
     height: calc(100vh - 65px);
     padding: 20px;
-    border-right: 1px solid var(--card-border);
+
+    z-index: 50;
 }
 
-/* =============== CSS GRID MAGIC HERE =============== */
+/* Sidebar items */
+.sidebar__menu { list-style: none; padding: 0; }
+.sidebar__item {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.sidebar__item:hover {
+    background: var(--hover-color);
+}
 
+
+/* =========================================
+   NOTES GRID (Pinterest layout)
+========================================= */
 .notes-grid {
     margin-left: 260px;
     padding: 20px;
 
+    width: calc(100% - 260px); /* prevents collapse */
+    min-width: 0;
+
     display: grid;
-
-    /* Google Keep magic line */
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-
     gap: 20px;
 }
 
-/* Notes (grid items) */
+
+/* =========================================
+   NOTE CARD + ANIMATIONS
+========================================= */
 .note {
     background: var(--card-bg);
     padding: 20px;
@@ -101,17 +144,124 @@ body {
     border-radius: 12px;
     box-shadow: var(--shadow-card);
 
+    opacity: 0;
+    transform: translateY(30px);
+
+    animation: slideUp 0.6s ease forwards;
     transition: transform 0.2s ease;
 }
 
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.note:nth-child(1) { animation-delay: .10s; }
+.note:nth-child(2) { animation-delay: .20s; }
+.note:nth-child(3) { animation-delay: .30s; }
+.note:nth-child(4) { animation-delay: .40s; }
+.note:nth-child(5) { animation-delay: .50s; }
+
 .note:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px) scale(1.015);
 }
 
-.note h2 {
-    margin: 0 0 10px;
+
+/* =========================================
+   FLOATING ACTION BUTTON (FAB)
+========================================= */
+.fab {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: none;
+
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+
+    background: var(--navbar-bg);
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+
+    animation: pulse 2s infinite ease-in-out;
+    z-index: 200;
 }
 
-.note p {
-    margin: 0;
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+
+/* =========================================
+   MODAL SYSTEM
+========================================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+
+    display: none;      /* hidden by default */
+    justify-content: center;
+    align-items: center;
+
+    z-index: 500;
+    padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+
+.modal-box {
+    width: 100%;
+    max-width: 520px;
+
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+
+    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    position: relative;
+}
+
+.modal__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+}
+
+
+/* Inputs */
+.modal__input,
+.modal__textarea {
+    width: 100%;
+    margin-top: 12px;
+
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.modal__textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.modal__save {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: var(--navbar-bg);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
