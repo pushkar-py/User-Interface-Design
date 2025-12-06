@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes App UI</title>
+    <title>Notes App UI - Grid Layout</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -15,7 +15,7 @@
         <button id="themeToggle">🌙</button>
     </div>
 
-    <!-- MAIN LAYOUT (Sidebar + Notes) -->
+    <!-- MAIN LAYOUT -->
     <div class="layout">
 
         <!-- SIDEBAR -->
@@ -27,29 +27,42 @@
             </ul>
         </div>
 
-        <!-- NOTES AREA -->
-        <div class="notes-container">
+        <!-- NOTES GRID AREA (NOW USING CSS GRID) -->
+        <div class="notes-grid">
 
-            <div class="notes-card">
+            <div class="note">
                 <h2>Shopping List</h2>
                 <p>Milk, Vegetables, Groceries</p>
             </div>
 
-            <div class="notes-card">
+            <div class="note">
                 <h2>Meeting Notes</h2>
-                <p>Discuss project timeline</p>
+                <p>Discuss project timeline and deliverables in detail.</p>
             </div>
 
-            <div class="notes-card">
+            <div class="note">
                 <h2>Ideas</h2>
-                <p>Start a tech blog, Learn FastAPI</p>
+                <p>Start tech blog, Learn FastAPI, Make portfolio website</p>
+            </div>
+
+            <div class="note">
+                <h2>Long Note Example</h2>
+                <p>
+                    This is a longer note to test the masonry layout.  
+                    Notice how the grid adjusts automatically.
+                </p>
+            </div>
+
+            <div class="note">
+                <h2>Another Note</h2>
+                <p>Lorem ipsum dolor sit amet consectetur.</p>
             </div>
 
         </div>
 
     </div>
 
-    <!-- INLINE JS (Dark Mode Toggle) -->
+    <!-- JAVASCRIPT -->
     <script>
         document.getElementById("themeToggle").onclick = function () {
             document.body.classList.toggle("dark-mode");

@@ -1,6 +1,4 @@
-/* ======================================
-   THEME VARIABLES (LIGHT MODE DEFAULT)
-====================================== */
+/* ROOT VARIABLES (same as before) */
 :root {
     --bg-color: #f4f4f4;
     --navbar-bg: #2D6A4F;
@@ -26,18 +24,16 @@ body.dark-mode {
     --text-color: #e6e6e6;
     --hover-color: #3a3a3a;
 
-    --shadow-light: 0 2px 6px rgba(0,0,0,0.6);
-    --shadow-card: 0 6px 18px rgba(0,0,0,0.4);
+    --shadow-card: 0 6px 18px rgba(0,0,0,0.6);
 }
 
-/* GLOBAL STYLING */
+/* GLOBAL */
 body {
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
     background: var(--bg-color);
     color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    transition: background var(--transition-speed), color var(--transition-speed);
 }
 
 /* NAVBAR */
@@ -47,37 +43,28 @@ body {
     left: 0;
     width: 100%;
     height: 65px;
-
     background: var(--navbar-bg);
-    box-shadow: var(--shadow-light);
-
+    color: white;
     display: flex;
     align-items: center;
     padding: 0 25px;
+    box-shadow: var(--shadow-light);
     z-index: 10;
 }
 
-.navbar h2 {
-    margin: 0;
-}
-
 #themeToggle {
-    margin-left: 1325px;
+    margin-left: auto;
     background: transparent;
     border: none;
     color: white;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
-    transition: opacity var(--transition-speed);
-}
-#themeToggle:hover {
-    opacity: 0.7;
 }
 
-/* MAIN LAYOUT */
+/* LAYOUT */
 .layout {
     display: flex;
-    margin-top: 65px; /* equal to navbar height */
+    margin-top: 65px;
 }
 
 /* SIDEBAR */
@@ -92,92 +79,39 @@ body {
     border-right: 1px solid var(--card-border);
 }
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+/* =============== CSS GRID MAGIC HERE =============== */
 
-.sidebar li {
-    font-size: 18px;
-    padding: 10px 14px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    color: var(--text-color);
-    transition: background var(--transition-speed);
-}
-
-.sidebar li:hover {
-    background: var(--hover-color);
-    cursor: pointer;
-}
-
-/* NOTES GRID */
-.notes-container {
+.notes-grid {
     margin-left: 260px;
     padding: 20px;
 
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+
+    /* Google Keep magic line */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
     gap: 20px;
 }
 
-/* NOTES CARD */
-.notes-card {
+/* Notes (grid items) */
+.note {
     background: var(--card-bg);
-    width: 250px;
     padding: 20px;
     border: 1px solid var(--card-border);
     border-radius: 12px;
-
-    transition: 
-        background var(--transition-speed),
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.notes-card:hover {
-    transform: translateY(-5px);
     box-shadow: var(--shadow-card);
+
+    transition: transform 0.2s ease;
 }
 
-.notes-card h2 {
+.note:hover {
+    transform: translateY(-4px);
+}
+
+.note h2 {
     margin: 0 0 10px;
-    font-size: 20px;
 }
 
-.notes-card p {
+.note p {
     margin: 0;
-    color: var(--text-color);
-}
-
-/* RESPONSIVE BREAKPOINTS */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .sidebar {
-      width: 180px;
-  }
-  .notes-container {
-      margin-left: 200px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .sidebar {
-      display: none;
-  }
-  .notes-container {
-      margin-left: 0;
-      justify-content: center;
-  }
-}
-
-/* Small Mobile */
-@media (max-width: 480px) {
-  .notes-card {
-      width: 100%;
-      max-width: 350px;
-  }
 }
