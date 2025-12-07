@@ -15,8 +15,8 @@ body {
    ROOT VARIABLES
 ========================================= */
 :root {
-    --bg-color: #f8f9fa;
-    --navbar-bg: #2D6A4F;
+    --bg-color: lightgrey;
+    --navbar-bg: rgb(60, 182, 145);
     --sidebar-bg: #ffffff;
     --card-bg: #ffffff;
     --card-border: #e2e2e2;
@@ -68,7 +68,7 @@ body.dark-mode {
 }
 
 .navbar__toggle {
-    margin-left: 1325px;
+    margin-left: 1500px;
     background: none;
     border: none;
     color: white;
